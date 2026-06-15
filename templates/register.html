@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register</title>
+  <style>
+    body { font-family: Arial; max-width: 400px; margin: 80px auto; padding: 0 20px; }
+    input { width: 100%; padding: 10px; margin: 6px 0 14px; box-sizing: border-box;
+            border: 1px solid #ddd; border-radius: 6px; }
+    button { width: 100%; background: #4F46E5; color: white; padding: 12px;
+             border: none; border-radius: 6px; cursor: pointer; font-size: 15px; }
+    .err { color: red; font-size: 13px; }
+    a { color: #4F46E5; }
+  </style>
+</head>
+<body>
+  <h2>Create account</h2>
+  <label>Name</label>
+  <input id="name" placeholder="Ravi Sharma">
+  <label>Email</label>
+  <input id="email" type="email" placeholder="ravi@gmail.com">
+  <label>Password</label>
+  <input id="password" type="password" placeholder="Min 6 characters">
+  <button onclick="register()">Register</button>
+  <p class="err" id="err"></p>
+  <p>Already have an account? <a href="/login">Login</a></p>
+  <script>
+    async function register() {
+      const res = await fetch("/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: document.getElementById("name").value,
+          email: document.getElementById("email").value,
+          password: document.getElementById("password").value
+        })
+      });
+      const data = await res.json();
+      if (data.ok) window.location.href = "/login";
+      else document.getElementById("err").textContent = data.error;
+    }
+  </script>
+</body>
+</html>

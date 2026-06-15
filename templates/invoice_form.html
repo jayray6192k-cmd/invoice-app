@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Free Invoice Generator</title>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2522344719619596" crossorigin="anonymous"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #f5f5f5; min-height: 100vh; }
+    .navbar { background: white; border-bottom: 1px solid #eee; padding: 14px 32px; }
+    .navbar h1 { font-size: 18px; color: #4F46E5; }
+    .navbar p { font-size: 12px; color: #999; margin-top: 2px; }
+    .page { display: grid; grid-template-columns: 160px 1fr 160px; gap: 20px;
+            max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+    .ad-slot { background: white; border: 1px dashed #ddd; border-radius: 8px;
+               display: flex; align-items: center; justify-content: center;
+               color: #bbb; font-size: 12px; text-align: center; padding: 10px;
+               min-height: 400px; position: sticky; top: 20px; align-self: start; }
+    .main { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .card { background: white; border-radius: 10px; border: 1px solid #eee; padding: 28px; }
+    h2 { font-size: 16px; margin-bottom: 16px; color: #111; }
+    label { font-size: 13px; color: #555; display: block; margin-bottom: 4px; }
+    input, select { width: 100%; padding: 9px 12px; margin-bottom: 14px;
+                    border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+    .section { border-top: 1px solid #eee; margin: 20px 0; padding-top: 20px; }
+    .row { display: flex; gap: 8px; margin-bottom: 8px; }
+    .row input { margin-bottom: 0; }
+    .btn { background: #4F46E5; color: white; padding: 12px 24px; border: none;
+           border-radius: 6px; cursor: pointer; font-size: 15px; width: 100%; margin-top: 8px; }
+    .btn:hover { background: #4338CA; }
+    .btn-outline { background: white; color: #333; padding: 9px 12px; border: 1px solid #ddd;
+                   border-radius: 6px; cursor: pointer; font-size: 14px; width: 100%; margin-bottom: 12px; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    #result { margin-top: 16px; font-size: 14px; color: #4F46E5; text-align: center; }
+    #result a { color: #4F46E5; font-weight: bold; }
+    .preview-card { background: white; border-radius: 10px; border: 1px solid #eee;
+                    padding: 28px; position: sticky; top: 20px; align-self: start; }
+    .preview-box { background: white; border: 1px solid #eee; border-radius: 6px;
+                   padding: 20px; font-size: 13px; color: #333; min-height: 300px; }
+    .preview-box h3 { color: #4F46E5; font-size: 22px; margin-bottom: 10px; }
+    .preview-box .meta { color: #666; font-size: 12px; margin-bottom: 4px; }
+    .preview-box table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 12px; }
+    .preview-box th { background: #4F46E5; color: white; padding: 6px 8px; text-align: left; }
+    .preview-box td { padding: 6px 8px; border-bottom: 1px solid #eee; }
+    .preview-box .total { text-align: right; font-weight: bold; margin-top: 10px; font-size: 14px; }
+    .ad-bottom { background: white; border: 1px dashed #ddd; border-radius: 8px;
+                 display: flex; align-items: center; justify-content: center;
+                 color: #bbb; font-size: 12px; height: 90px;
+                 max-width: 1100px; margin: 0 auto 30px; }
+    footer { text-align: center; padding: 20px; font-size: 12px; color: #999; }
+    @media (max-width: 768px) {
+      .page { grid-template-columns: 1fr; }
+      .ad-slot { display: none; }
+      .main { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <h1>InvoiceApp - Free Invoice Generator</h1>
+  <p>Create professional PDF invoices in seconds. 100% free.</p>
+</nav>
+
+<div class="page">
+  <div class="ad-slot">Ad Space<br>160x600</div>
+
+  <div class="main">
+    <div class="card">
+      <h2>Your details</h2>
+      <label>Your name</label>
+      <input id="your_name" placeholder="Ravi Sharma" oninput="updatePreview()">
+      <label>Your email</label>
+      <input id="your_email" type="email" placeholder="ravi@gmail.com" oninput="updatePreview()">
+
+      <div class="section">
+        <h2>Client details</h2>
+        <label>Client name</label>
+        <input id="client_name" placeholder="ABC Pvt Ltd" oninput="updatePreview()">
+        <label>Client email (optional)</label>
+        <input id="client_email" type="email" placeholder="client@company.com">
+      </div>
+
+      <div class="section">
+        <h2>Invoice details</h2>
+        <label>Currency</label>
+        <select id="currency" onchange="updatePreview()">
+          <option value="Rs.">Rs. Indian Rupee</option>
+          <option value="$">$ US Dollar</option>
+          <option value="GBP ">GBP British Pound</option>
+          <option value="EUR ">EUR Euro</option>
+          <option value="AED ">AED Dirham</option>
+        </select>
+        <div class="two-col">
+          <div>
+            <label>Invoice date</label>
+            <input id="invoice_date" type="date" oninput="updatePreview()">
+          </div>
+          <div>
+            <label>Due date</label>
+            <input id="due_date" type="date" oninput="updatePreview()">
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Line items</h2>
+        <div id="items">
+          <div class="row">
+            <input placeholder="Description" class="desc" style="flex:2" oninput="updatePreview()">
+            <input placeholder="Qty" class="qty" type="number" style="flex:0.5" oninput="updatePreview()">
+            <input placeholder="Rate" class="rate" type="number" style="flex:1" oninput="updatePreview()">
+          </div>
+        </div>
+        <button class="btn-outline" onclick="addItem()">+ Add item</button>
+      </div>
+
+      <button class="btn" onclick="generate()">Generate Invoice PDF</button>
+      <div id="result"></div>
+    </div>
+
+    <div class="preview-card">
+      <h2>Live Preview</h2>
+      <div class="preview-box" id="preview">
+        <h3>Invoice</h3>
+        <p class="meta">Fill in the form to see your invoice preview</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-slot">Ad Space<br>160x600</div>
+</div>
+
+<div class="ad-bottom">Ad Space - 728x90</div>
+
+<div style="max-width:1100px; margin: 0 auto 30px; padding: 0 20px;">
+  <div style="background:white; border-radius:10px; border:1px solid #eee; padding:28px;">
+    <h2 style="font-size:16px; margin-bottom:12px; color:#111;">What is InvoiceApp?</h2>
+    <p style="font-size:14px; color:#555; line-height:1.7; margin-bottom:10px;">
+      InvoiceApp is a free online invoice generator for Indian freelancers and small businesses.
+      Create professional PDF invoices in seconds - no signup, no subscription, no watermark.
+    </p>
+    <h2 style="font-size:16px; margin-bottom:12px; margin-top:20px; color:#111;">How to create an invoice</h2>
+    <p style="font-size:14px; color:#555; line-height:1.7;">
+      1. Enter your name and email address.<br>
+      2. Enter your client name and email.<br>
+      3. Set the invoice date and due date.<br>
+      4. Add your line items with description, quantity and rate.<br>
+      5. Click Generate Invoice PDF and download instantly.
+    </p>
+  </div>
+</div>
+
+<footer>Free Invoice Generator - No signup required - PDF downloads instantly</footer>
+
+<script>
+  function updatePreview() {
+    var name = document.getElementById("your_name").value || "Your Name";
+    var email = document.getElementById("your_email").value || "your@email.com";
+    var client = document.getElementById("client_name").value || "Client Name";
+    var date = document.getElementById("invoice_date").value || "-";
+    var due = document.getElementById("due_date").value || "-";
+    var currency = document.getElementById("currency").value;
+
+    var items = Array.from(document.querySelectorAll("#items .row")).map(function(row) {
+      return {
+        desc: row.querySelector(".desc").value || "-",
+        qty: +row.querySelector(".qty").value || 0,
+        rate: +row.querySelector(".rate").value || 0
+      };
+    });
+
+    var total = items.reduce(function(s, i) { return s + i.qty * i.rate; }, 0);
+
+    var rows = items.map(function(i) {
+      return "<tr><td>" + i.desc + "</td><td>" + i.qty + "</td><td>" + currency + i.rate.toLocaleString() + "</td><td>" + currency + (i.qty * i.rate).toLocaleString() + "</td></tr>";
+    }).join("");
+
+    document.getElementById("preview").innerHTML =
+      "<h3>Invoice</h3>" +
+      '<p class="meta">From: <strong>' + name + "</strong> (" + email + ")</p>" +
+      '<p class="meta">To: <strong>' + client + "</strong></p>" +
+      '<p class="meta">Date: ' + date + " | Due: " + due + "</p>" +
+      "<table><thead><tr><th>Description</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead><tbody>" + rows + "</tbody></table>" +
+      '<p class="total">Total: ' + currency + total.toLocaleString() + "</p>";
+  }
+
+  function addItem() {
+    var div = document.createElement("div");
+    div.className = "row";
+    div.innerHTML =
+      '<input placeholder="Description" class="desc" style="flex:2" oninput="updatePreview()">' +
+      '<input placeholder="Qty" class="qty" type="number" style="flex:0.5" oninput="updatePreview()">' +
+      '<input placeholder="Rate" class="rate" type="number" style="flex:1" oninput="updatePreview()">';
+    document.getElementById("items").appendChild(div);
+  }
+
+  async function generate() {
+    var items = Array.from(document.querySelectorAll("#items .row")).map(function(row) {
+      return {
+        desc: row.querySelector(".desc").value,
+        qty: +row.querySelector(".qty").value,
+        rate: +row.querySelector(".rate").value
+      };
+    });
+
+    var body = {
+      your_name: document.getElementById("your_name").value,
+      your_email: document.getElementById("your_email").value,
+      client_name: document.getElementById("client_name").value,
+      client_email: document.getElementById("client_email").value || "",
+      due_date: document.getElementById("due_date").value,
+      currency: document.getElementById("currency").value,
+      items: items
+    };
+
+    document.getElementById("result").textContent = "Generating...";
+
+    var res = await fetch("/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    });
+    var data = await res.json();
+    document.getElementById("result").innerHTML =
+      'Done! <a href="' + data.download_url + '">Download ' + data.invoice_id + "</a>";
+  }
+</script>
+
+</body>
+</html>
